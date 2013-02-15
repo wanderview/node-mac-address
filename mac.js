@@ -23,6 +23,9 @@
 
 'use strict';
 
+var LENGTH = 6;
+module.exports.LENGTH = LENGTH;
+
 // [0x11, 0x22, 0x33, 0x44, 0x55, 0x66] ==> '11:22:33:44:55:66'
 module.exports.toString = function(buf, offset) {
   offset = ~~offset;
@@ -31,7 +34,7 @@ module.exports.toString = function(buf, offset) {
 
   var string = '';
   var byteList = [];
-  for (var i = 0; i < 6; ++i) {
+  for (var i = 0; i < LENGTH; ++i) {
     var tmpByte = buf.readUInt8(offset + i);
     var tmpStr = tmpByte.toString(16);
     if (tmpStr.length < 2) {
@@ -46,17 +49,17 @@ module.exports.toString = function(buf, offset) {
 // '11:22:33:44:55:66' ==> [0x11, 0x22, 0x33, 0x44, 0x55, 0x66]
 module.exports.toBuffer = function(string, buf, offset) {
   offset = ~~offset;
-  buf = (buf instanceof Buffer) ? buf : new Buffer(6 + offset);
+  buf = (buf instanceof Buffer) ? buf : new Buffer(LENGTH + offset);
 
   _validateLength(buf, offset);
 
   var values = string.split(':');
-  if (!values || values.length !== 6) {
+  if (!values || values.length !== LENGTH) {
     throw(new Error('Invalid MAC [' + string +
                     ']; should follow pattern [##:##:##:##:##:##]'));
   }
 
-  for (var i = 0; i < 6; ++i) {
+  for (var i = 0; i < LENGTH; ++i) {
     var tmpByte = parseInt(values[i], 16);
     buf.writeUInt8(tmpByte, offset + i);
   }
@@ -65,9 +68,9 @@ module.exports.toBuffer = function(string, buf, offset) {
 };
 
 function _validateLength(buf, offset) {
-  if (buf.length < offset + 6) {
-    throw(new Error('Buffer is not large enough to store a 6-byte MAC ' +
-                    'starting at offset [' + offset + '].  Total length is [' +
-                    buf.length + ']'));
+  if (buf.length < offset + LENGTH) {
+    throw(new Error('Buffer is not large enough to store a ' + LENGTH +
+                    '-byte MAC starting at offset [' + offset + '].  Total ' +
+                    'length is [' + buf.length + ']'));
   }
 }

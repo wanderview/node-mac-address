@@ -45,7 +45,7 @@ module.exports.toStringOffset = function(test) {
 
 module.exports.toStringLength = function(test) {
   test.expect(1);
-  var buf = MAC_BUF.slice(0, 5);
+  var buf = MAC_BUF.slice(0, mac.LENGTH - 1);
   test.throws(function() {
     mac.toString(buf);
   });
@@ -78,13 +78,13 @@ module.exports.toBufferExistingOffset = function(test) {
   var offset = 11;
   MAC_BUF.copy(buf, offset);
   test.equal(buf, mac.toBuffer(MAC_STR, buf, offset));
-  test.deepEqual(MAC_BUF, buf.slice(offset, offset + 6));
+  test.deepEqual(MAC_BUF, buf.slice(offset, offset + mac.LENGTH));
   test.done();
 };
 
 module.exports.toBufferExistingLength = function(test) {
   test.expect(1);
-  var buf = MAC_BUF.slice(0, 5);
+  var buf = MAC_BUF.slice(0, mac.LENGTH - 1);
   test.throws(function() {
     test.toBuffer(MAC_STR, buf);
   });
