@@ -26,6 +26,9 @@
 var LENGTH = 6;
 module.exports.LENGTH = LENGTH;
 
+module.exports.BROADCAST = 'ff:ff:ff:ff:ff:ff';
+module.exports.ZERO = '00:00:00:00:00:00';
+
 // [0x11, 0x22, 0x33, 0x44, 0x55, 0x66] ==> '11:22:33:44:55:66'
 module.exports.toString = function(buf, offset) {
   offset = ~~offset;

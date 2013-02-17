@@ -14,7 +14,6 @@ var string = '11:22:33:44:55:66';
 var buffer = new Buffer([0x11, 0x22, 0x33, 0x44, 0x55, 0x66]);
 
 // basics
-mac.LENGTH === 6;                           // true
 mac.toString(buffer) === string;            // true
 bufferEqual(mac.toBuffer(string), buffer);  // true
 
@@ -30,4 +29,9 @@ mac.toString(longBuffer, offset);
 // exceptions
 mac.toString(new Buffer(mac.LENGTH - 1));   // throws illegal length Error
 mac.toBuffer('zz:xx::b:blarg');             // throws illegal format Error
+
+// some constants
+mac.LENGTH === 6;                           // true
+mac.BROADCAST === 'ff:ff:ff:ff:ff:ff';      // true
+mac.ZERO === '00:00:00:00:00:00';           // true
 ```
